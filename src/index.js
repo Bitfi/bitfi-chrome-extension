@@ -1,12 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import React from 'react'
+import { Provider } from 'react-redux'
+import ReactDOM from 'react-dom'
+import App from './views/Popup/App'
+import { getStore } from './redux/store'
+import MessageBroker from './logic/api/message-broker'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+//console = chrome.extension.getBackgroundPage().console
+
+(async () => {
+  if (chrome?.extension?.getBackgroundPage()?.console) {
+    console = chrome.extension.getBackgroundPage().console
+  }
+  const user = await MessageBroker.sendMessage.getUser()
+  const store = await getStore()
+  ReactDOM.render(
+    <Provider store={store}>
+      <App userDecrypted={user}/>
+    </Provider>,
+    document.getElementById('root')
+  );
+})();

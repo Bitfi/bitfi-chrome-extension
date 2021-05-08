@@ -1,0 +1,11 @@
+.Header-container {
+  align-items: center;
+  background: var(--header-color);
+  position: relative;
+  z-index: 12;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  flex: 0 0 auto;
+  height: var(--header-height-px);
+}
