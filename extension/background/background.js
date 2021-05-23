@@ -4,14 +4,12 @@ import MessageBroker from '../src/logic/api/message-broker';
 
 (async () => {
   var user = null;
+  const store = await getStore();
+
   MessageBroker.addListener.getUser((msg, sender, reply) => {
     reply(user);
-    console.log(`GET USER ${JSON.stringify(user)}`);
   });
   
-
-  console.log(MessageBroker.addListener.logout);
-
   MessageBroker.addListener.login((msg, sender, reply) => {
     user = {
       address: msg.address,
@@ -27,7 +25,9 @@ import MessageBroker from '../src/logic/api/message-broker';
     console.log(`LOGOUT ${JSON.stringify(user)}`);
   });
 
-  const store = await getStore();
+  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    console.log(message)
+  });
 
   store.subscribe(() => {
     console.log('change');

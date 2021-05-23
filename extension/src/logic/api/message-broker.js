@@ -9,7 +9,6 @@ const sendMessage = type => data => new Promise((res, rej) => {
 })
 
 const addListener = type => handler => {
-  console.log('HERE')
   chrome.extension.onMessage.addListener((msg, sender, reply) => {
     if (type === msg.type) 
       handler(msg, sender, reply)
@@ -26,6 +25,6 @@ export default {
   sendMessage: {
     getUser: sendMessage(type.GET_USER),
     login: sendMessage(type.LOGIN),
-    logout: sendMessage(type.LOGOUT)
+    logout: sendMessage(type.LOGOUT),
   }
 }

@@ -1,18 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "Extension Name",
+  "name": "bitfi_extension",
   "version": "0.1",
   "description": "Some Description",
 
   "permissions": ["storage"],
-
+  "externally_connectable": {
+    "matches": ["<all_urls>", "*://*.example.com/*"]
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
-      "matches": ["http://*.example.com/*", "https://*.example.com/*"],
+      "matches": ["<all_urls>"],
       "js": ["content-script.js"]
     }
   ],

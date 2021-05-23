@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { checkApprove } from '../../logic/api/bitfi-server'
 
-export default function({ className, frequencyMsec, deviceID, onBack, onApproved, timeoutMsec }) {
+export default function({ 
+  className, frequencyMsec, deviceID, 
+  onBack, onApproved, timeoutMsec 
+}) {
   const [timeout, setTimeout] = useState(false)
   let checkInterval = null
 
