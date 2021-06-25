@@ -17,12 +17,11 @@ function auth(state = authInitState, action) {
       return {
         ...authInitState
       }
-    case INIT: {
+    case INIT:
       return {
         ...authInitState,
         encrypted: action.data.encrypted
       }
-    }
     default:
       return state
   }
@@ -35,14 +34,13 @@ const defaultRequest = {
 
 function request(state = defaultRequest, action) {
   switch (action.type) {
-    case ADD_PENDING_REQ: {
+    case ADD_PENDING_REQ:
       return {
         pending: [{
           ...action.data.params
         }],
         pendingEmpty: false
       }
-    }
     case RESET:
     case REMOVE_PENDING_REQ:
       return {

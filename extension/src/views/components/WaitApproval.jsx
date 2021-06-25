@@ -19,7 +19,7 @@ export default function({
           return
         } 
 
-        const { ok, account } = await checkApprove(deviceID)
+        const { ok, account } = await checkApprove({ deviceID })
 
         if (ok && account) {
           clearInterval(checkInterval)

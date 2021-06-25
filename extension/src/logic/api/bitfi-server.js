@@ -5,7 +5,7 @@ export const sendApprove = (deviceID) =>
     setTimeout(() => res({ ok: true, deviceID }), 1000)
   })
 
-export const checkApprove = (deviceID) =>
+export const checkApprove = ({ deviceID }) =>
   new Promise(res => {
     setTimeout(() => {
       console.log(`Making request to ${deviceID}`)

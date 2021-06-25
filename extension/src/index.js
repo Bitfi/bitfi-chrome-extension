@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
 import App from './views/Popup/App'
 import { getStore } from './redux/store'
-import MessageBroker from './logic/api/message-broker'
+import background from './logic/api/message-broker'
 
 //console = chrome.extension.getBackgroundPage().console
 
@@ -14,7 +14,7 @@ import MessageBroker from './logic/api/message-broker'
   if (chrome?.extension?.getBackgroundPage()?.console) {
     console = chrome.extension.getBackgroundPage().console
   }
-  const user = await MessageBroker.sendMessage.getUser()
+  const user = await background.sendMessage.getUser()
   const store = await getStore()
   ReactDOM.render(
     <Provider store={store}>

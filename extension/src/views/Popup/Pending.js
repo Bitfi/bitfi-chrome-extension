@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import format from '../../logic/utils/format'
 import { removePending } from '../../redux/actions'
+import background from '../../logic/api/message-broker'
 
 const REQUEST_DELAY = 1000 * 5
 
@@ -46,7 +47,10 @@ export default function Pending({ from, to, type, amount, user }) {
           SEND REQUEST {canRequest? '' : `(${secsUntilNewReq})` }
         </button>
         <button 
-          onClick={() => dispatch(removePending())}
+          onClick={async () => {
+            dispatch(removePending())
+            await background.sendMessage.cancelTx()
+          }}
           className="w-100 button-primary"
         >
           REJECT

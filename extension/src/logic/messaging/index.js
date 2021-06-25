@@ -30,7 +30,7 @@ export const inject = () => {
     function request(subject, options = DEFAULT_OPTIONS) {
       var requestId = randomHex(6)
       var dataToSend = {
-        request: Object.assign({}, options.data),
+        request: Object.assign(DEFAULT_OPTIONS, options.data),
         requestId,
         subject
       }

@@ -4,13 +4,16 @@ import './App.css';
 import useAccount from './hooks/useAccount';
 
 function App() {
+  const [loading, setLoading] = useState(false)
   const bitfi = useBitfi()
   let account = useAccount()
   
   const onSign = async () => {
     if (bitfi) {
-      const res = await bitfi.request(bitfi.subjects.SIGN_TX)
+      setLoading(true)
+      const res = await bitfi.request(bitfi.subjects.SIGN_TX, { timeoutMsec: 60 * 1000 })
       console.log(res)
+      setLoading(false)
     }
   }
 
@@ -23,7 +26,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={onSign}>sign</button>
+        {bitfi && account && <button disabled={loading} className="btn btn-primary" onClick={onSign}>Sign request</button>}
       </header>
     </div>
   );

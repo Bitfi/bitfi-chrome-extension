@@ -1,7 +1,41 @@
 //import 'crx-hotreload'
 import { getStore } from '../src/redux/store';
-import MessageBroker from '../src/logic/api/message-broker';
+import background from '../src/logic/api/message-broker';
 import { addPending } from '../src/redux/actions';
+import { checkApprove } from '../src/logic/api/bitfi-server';
+
+
+const signAproveInterval = () => {
+  let canceled  = false
+
+  const start = (params, timeout = 10000) =>
+    new Promise(res => {
+      clearInterval(interval)
+      const startTime = Date.now()
+      const interval = setInterval(async() => {
+        if (canceled) {
+          console.log('REJECTED')
+          clearInterval(interval)
+          res('Rejected')
+          return
+        }
+
+        if (startTime + timeout < Date.now()) {
+          const result = await checkApprove(params)
+          clearInterval(interval)
+          res(result)
+        }
+      }, 1000)
+    })
+
+  const stop = () => {
+    canceled = true
+  }
+
+  return [start, stop]
+}
+
+
 
 function wait(timeout) {
   return new Promise((res, rej) => setTimeout(() => {
@@ -9,71 +43,65 @@ function wait(timeout) {
   }, timeout))
 }
 
+async function getCurrentTab() {
+  return new Promise((res, rej) => {
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, tabs => {
+      res(tabs[0])
+    });
+  })
+  
+}
 
 (async () => {
-  async function getCurrentTab() {
-    return new Promise((res, rej) => {
-      let queryOptions = { active: true, currentWindow: true };
-      chrome.tabs.query(queryOptions, tabs => {
-        res(tabs[0])
-      });
-    })
-    
-  }
+  
 
   var user = null;
   const store = await getStore();
-  //const currentTab = getCurrentTab()
-  //console.log(store)
-  //console.log(currentTab)
 
-  MessageBroker.addListener.getUser((msg, sender, reply) => {
-    reply(user);
+  background.addListener.getUser((msg, sender) => {
+    return user
   });
   
-  MessageBroker.addListener.login((msg, sender, reply) => {
+  background.addListener.login((msg, sender) => {
     user = {
       address: msg.address,
       token: msg.token,
       deviceID: msg.deviceID
     };
-    reply(user);
-    
-    // notify-content-script
-    //console.log('MESSAGE SENT')
-    //chrome.runtime.sendMessage({ type: 'ACCOUNT_CHANGED', account: user })
+    return user
   });
 
-  MessageBroker.addListener.logout((msg, sender, reply) => {
+  background.addListener.logout((msg, sender) => {
     user = null;
-    reply(user);
-    //chrome.runtime.sendMessage({ type: 'ACCOUNT_CHANGED', account: user })
+    return user
   });
 
-  MessageBroker.addListener.sendTx(async (msg, sender, reply) => {
-    
-    if (store.getState().auth.encrypted) {
+  let cancelTxStopListen = null
 
+  background.addListener.sendTx(async (msg, sender) => {
+    if (store.getState().auth.encrypted) {
+      
+      const [start, stop] = signAproveInterval()
       const tx = {
         from: '0xF541C3CD1D2df407fB9Bb52b3489Fc2aaeEDd97E',
         to: '0x7beE0c6d5132e39622bDB6C0fc9F16b350f09453',
         amount: '1.23'
       }
 
+      cancelTxStopListen && cancelTxStopListen()
+      cancelTxStopListen = background.addListener.cancelTx(() => {
+        console.log('TX CANCELED')
+        stop()
+      })
+
       store.dispatch(addPending(tx))
-      
-      //const tab = await getCurrentTab()
-      //console.log(tab)
-      //console.log(currentTab)
-      //chrome.browserAction.openPopup() //.setPopup({ popup: 'index.html' })
-      //chrome.tabs.create({url:"index.html"});
-     
-      //chrome.tabs.update(tab.id, {url: 'index.html'});
-      reply(true)
-    } else {
-      //chrome.tabs.create({url:"index.html"})
-      reply(false)
+
+      const res = await start({ deviceID: 'aaaaaa' })
+      return res
     }
+
+    return true
   })
 
   if (store.getState().request.pending.length > 0) {
@@ -81,7 +109,6 @@ function wait(timeout) {
   }
 
   store.subscribe(async () => {
-    console.log('change');
     if (store.getState().request.pending.length > 0) {
       chrome.browserAction.setBadgeText({ text: store.getState().request.pending.length.toString() })
     } else {
