@@ -1,4 +1,4 @@
-export const BITFI_LOCALSTORAGE_KEY = 'BITFI_LOCALSTORAGE_KEY'
+export const BITFI_LOCALSTORAGE_KEY = 'BITFI_LOCALSTORAGE_KEY1'
 export const STORAGE_AREA = 'local'
 export const MOCK_ACCOUNTS = [
   {

@@ -1,16 +1,32 @@
-import {  listen } from '../src/logic/messaging/primitives'
-import { subjects, status } from '../src/logic/messaging/types'
+
+import { inject  } from '../src/logic/messaging'
 import broker from '../src/logic/api/message-broker'
 
-console.log('HELLO')
-listen(subjects.GET_STATUS, async req => {
+inject()
+const { listen, subjects, status, dispatch } = window.bitfi
+
+
+listen(subjects.GET_STATUS, async (data, reply) => {
   const user = await broker.sendMessage.getUser()
-  return user? status.READY : status.NOT_AUTHORIZED
+  reply(user? status.READY : status.NOT_AUTHORIZED)
 })
 
-listen(subjects.GET_ACCOUNT, async req => {
+listen(subjects.GET_ACCOUNT, async (data, reply) => {
   const user = await broker.sendMessage.getUser()
-  return user? user.address : undefined
+  reply(user? user.address : null)
 })
 
+listen(subjects.SIGN_TX, async (data, reply) => {
+  const response = await broker.sendMessage.sendTx()
+  reply(response)
+})
 
+/*
+chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+
+  if (msg.type === 'ACCOUNT_CHANGED') {
+    console.log('CHANGED')
+    dispatch(subjects.ACCOUNT_CHANGED, 'account changed')
+  }
+});
+*/

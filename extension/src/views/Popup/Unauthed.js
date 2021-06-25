@@ -35,8 +35,8 @@ export default function({ login, reset, encrypted }) {
       },
     },
     onSubmit: data => {
-      const { address, token } = aes.decrypt(encrypted, data[fields.password])
-      login({ address, token })
+      const { address, token, deviceID } = aes.decrypt(encrypted, data[fields.password])
+      login({ address, token, deviceID })
     },
     initialValues: {
       [fields.deviceID]: 'AAAAAA',
@@ -45,9 +45,9 @@ export default function({ login, reset, encrypted }) {
 
   return (
     <div className="text-center w-100">
-      <h3 className="title">Welcome back!</h3>
+      <h3 className="title">Welcome back!!</h3>
       <p>
-        The decentralized web awaits
+        The decentralized web awaits!
       </p>
       <div>
         <input 

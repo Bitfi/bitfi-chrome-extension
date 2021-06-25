@@ -1,39 +1,29 @@
 import { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import useBitfi from './hooks/useBitfi'
 import './App.css';
-import { getStatus, getAccount } from './messaging/broker'
-import { status } from './messaging/types'
-
+import useAccount from './hooks/useAccount';
 
 function App() {
-  const [account, setAccount] = useState('')
-
-  const fetchAccount = async () => {
-    const responseStatus = await getStatus()
-
-    if (responseStatus === status.READY) {
-      const account = await getAccount()
-      console.log(account)
-      setAccount(account)
-    } else {
-      setAccount(responseStatus)
+  const bitfi = useBitfi()
+  let account = useAccount()
+  
+  const onSign = async () => {
+    if (bitfi) {
+      const res = await bitfi.request(bitfi.subjects.SIGN_TX)
+      console.log(res)
     }
   }
-
-  useEffect(async () => {
-    fetchAccount()
-  })
 
   return (
     <div className="App">
       <header className="App-header">
         <div>
-          {account}
+          {account || 'not_initialized'}
         </div>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={fetchAccount} className="btn btn-primary">update</button>
+        <button onClick={onSign}>sign</button>
       </header>
     </div>
   );

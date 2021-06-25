@@ -126,5 +126,17 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "clean-webpack-plugin": "^2.0.1",
     "webpack-chrome-extension-reloader": "^1.3.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -1,8 +1,8 @@
 import {
-  LOGIN,
-  LOGOUT,
   RESET,
-  INIT
+  INIT,
+  ADD_PENDING_REQ,
+  REMOVE_PENDING_REQ
 } from './types'
 import { combineReducers } from 'redux';
 
@@ -13,21 +13,6 @@ const authInitState = {
 
 function auth(state = authInitState, action) {
   switch (action.type) {
-    /*
-    case LOGIN:
-      return {
-        ...state,
-        user: {
-          address: action.data.address,
-          token: action.data.token
-        }
-      }
-    case LOGOUT:
-      return {
-        ...state,
-        user: null
-      }
-    */
     case RESET:
       return {
         ...authInitState
@@ -43,6 +28,33 @@ function auth(state = authInitState, action) {
   }
 }
 
+const defaultRequest = {
+  pending: [],
+  pendingEmpty: true
+}
+
+function request(state = defaultRequest, action) {
+  switch (action.type) {
+    case ADD_PENDING_REQ: {
+      return {
+        pending: [{
+          ...action.data.params
+        }],
+        pendingEmpty: false
+      }
+    }
+    case RESET:
+    case REMOVE_PENDING_REQ:
+      return {
+        ...defaultRequest
+      }
+    
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
-  auth
+  auth,
+  request
 })

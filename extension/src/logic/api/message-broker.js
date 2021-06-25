@@ -1,7 +1,8 @@
 const type = {
   LOGIN: 'LOGIN',
   GET_USER: 'GET_USER',
-  LOGOUT: 'LOGOUT'
+  LOGOUT: 'LOGOUT',
+  SEND_TRANSACTION: 'SEND_TRANSACTION'
 }
 
 const sendMessage = type => data => new Promise((res, rej) => {
@@ -19,12 +20,14 @@ export default {
   addListener: {
     getUser: addListener(type.GET_USER),
     login: addListener(type.LOGIN),
-    logout: addListener(type.LOGOUT)
+    logout: addListener(type.LOGOUT),
+    sendTx: addListener(type.SEND_TRANSACTION)
   },
 
   sendMessage: {
     getUser: sendMessage(type.GET_USER),
     login: sendMessage(type.LOGIN),
     logout: sendMessage(type.LOGOUT),
+    sendTx: sendMessage(type.SEND_TRANSACTION)
   }
 }
