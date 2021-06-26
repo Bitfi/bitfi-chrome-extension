@@ -6,7 +6,7 @@ import Unauthed from './Unauthed';
 import Create from './Create'
 import './styles/App.css'
 import Header from '../components/Header';
-import MessageBroker from '../../logic/api/message-broker'
+import background from '../../logic/api/message-broker'
 import Pending from './Pending';
 
 function App({ userDecrypted }) {
@@ -20,12 +20,12 @@ function App({ userDecrypted }) {
   const [user, setUser] = useState(userDecrypted)
 
   const login = async ({ address, token, deviceID }) => {
-    const user = await MessageBroker.sendMessage.login({ address, token, deviceID })
+    const user = await background.sendMessage.login({ address, token, deviceID })
     setUser(user)
   }
 
   const logout = async () => {
-    const user = await MessageBroker.sendMessage.logout()
+    const user = await background.sendMessage.logout()
     setUser(user)
   }
 

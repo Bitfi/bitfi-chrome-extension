@@ -3,7 +3,7 @@ const type = {
   GET_USER: 'GET_USER',
   LOGOUT: 'LOGOUT',
   SEND_TRANSACTION: 'SEND_TRANSACTION',
-  CANCEL_REQUEST: 'CANCEL_REQUEST'
+  TX_COMPLETED: 'TX_COMPLETED'
 }
 
 const sendMessage = type => data => new Promise((res, rej) => {
@@ -18,9 +18,9 @@ function isPromise(value) {
 
 const addListener = type => handler => {
   const callback = (msg, sender, reply) => {
+
     if (type === msg.type) {
       const returnValue = handler(msg, sender)
-
       if (isPromise(returnValue)) {
         returnValue.then(reply);
         return true;
@@ -47,7 +47,7 @@ export default {
     login: addListener(type.LOGIN),
     logout: addListener(type.LOGOUT),
     sendTx: addListener(type.SEND_TRANSACTION),
-    cancelTx: addListener(type.CANCEL_REQUEST)
+    txCompleted: addListener(type.TX_COMPLETED)
   },
 
   sendMessage: {
@@ -55,6 +55,6 @@ export default {
     login: sendMessage(type.LOGIN),
     logout: sendMessage(type.LOGOUT),
     sendTx: sendMessage(type.SEND_TRANSACTION),
-    cancelTx: sendMessage(type.CANCEL_REQUEST)
+    txCompleted: sendMessage(type.TX_COMPLETED)
   }
 }

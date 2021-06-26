@@ -6,33 +6,45 @@ import { checkApprove } from '../src/logic/api/bitfi-server';
 
 
 const signAproveInterval = () => {
-  let canceled  = false
+  let error = false
+  let result = false
 
   const start = (params, timeout = 10000) =>
     new Promise(res => {
       clearInterval(interval)
       const startTime = Date.now()
       const interval = setInterval(async() => {
-        if (canceled) {
-          console.log('REJECTED')
+        if (error) {
           clearInterval(interval)
-          res('Rejected')
+          res(error)
           return
         }
 
+        if (result) {
+          clearInterval(interval)
+          res(result)
+          return 
+        }
+
+        /*
         if (startTime + timeout < Date.now()) {
           const result = await checkApprove(params)
           clearInterval(interval)
           res(result)
         }
+        */
       }, 1000)
     })
 
-  const stop = () => {
-    canceled = true
+  const stop = (err) => {
+    error = err
   }
 
-  return [start, stop]
+  const success = (res) => {
+    result = res
+  }
+
+  return [start, stop, success]
 }
 
 
@@ -77,22 +89,29 @@ async function getCurrentTab() {
     return user
   });
 
-  let cancelTxStopListen = null
+  let stopTxCompletedListener = null
 
   background.addListener.sendTx(async (msg, sender) => {
     if (store.getState().auth.encrypted) {
       
-      const [start, stop] = signAproveInterval()
+      const [start, stop, success] = signAproveInterval()
       const tx = {
         from: '0xF541C3CD1D2df407fB9Bb52b3489Fc2aaeEDd97E',
         to: '0x7beE0c6d5132e39622bDB6C0fc9F16b350f09453',
         amount: '1.23'
       }
 
-      cancelTxStopListen && cancelTxStopListen()
-      cancelTxStopListen = background.addListener.cancelTx(() => {
-        console.log('TX CANCELED')
-        stop()
+      stopTxCompletedListener && stopTxCompletedListener()
+      stopTxCompletedListener = background.addListener.txCompleted((msg, sender) => {
+        const { error, data } = msg
+
+        if (error) {
+          stop(error)
+          return error
+        }
+
+        success(data)
+        return data
       })
 
       store.dispatch(addPending(tx))
