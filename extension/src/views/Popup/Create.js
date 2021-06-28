@@ -65,7 +65,6 @@ export default function({ init }) {
       <SetPassword
         className="w-100"
         onSuccess={password => {
-          console.log(account)
           const encrypted = aes.encrypt(account, password)
           init({ encrypted })
         }}
@@ -78,8 +77,8 @@ export default function({ init }) {
       <WaitApproval 
         className="w-100 text-center"
         deviceID={data[fields.deviceID]}
-        frequencyMsec={1000} 
-        timeoutMsec={3000} 
+        //frequencyMsec={1000} 
+        timeoutMsec={1000 * 120} 
         onApproved={({ address, token }) => {
           if (waitApproval)
             setAccount({ address, token, deviceID: data[fields.deviceID] })

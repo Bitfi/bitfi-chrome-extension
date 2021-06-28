@@ -32,13 +32,17 @@ export default function({ user,logout }) {
       >
         LOGOUT
       </button>
-
-      <button 
+      {
+        /*
+        <button 
         className="w-100 button-primary" 
         onClick={() => dispatch(addPending(tx))}
       >
         SEND TX
       </button>
+        */
+      }
+      
     </div>
   )
 }

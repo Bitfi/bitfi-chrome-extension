@@ -6,36 +6,53 @@ export default function({
   onBack, onApproved, timeoutMsec 
 }) {
   const [timeout, setTimeout] = useState(false)
-  let checkInterval = null
+  const [secsLeft, setSecsLeft] = useState(timeoutMsec)
+  let websocket = new WebSocket("wss://bitfi.com/NoxWSHandler/NoxWS.ashx");
+    
+
+  const startWSrequest = () => {
+    var request_type = "EXTAPI:";
+    var request = request_type.concat(deviceID);
+    
+    websocket.addEventListener('open', function (event) {
+      websocket.send(request);
+    });
+    
+    websocket.addEventListener('message', function (e) {
+      
+      const response = e.data // JSON.stringify(e.data)
+
+      if (response.Completed) {
+        onApproved(e.data)
+      }
+    });
+    
+  };
 
   useEffect(() => {
+    startWSrequest()
+    
+    
     const timeout = timeoutMsec + Date.now()
-
-    checkInterval = setInterval(async () => {
+    const checkInterval = setInterval(async () => {
       try {
+        
         if (Date.now() > timeout) {
           clearInterval(checkInterval)
           setTimeout(true)
           return
         } 
-
-        const { ok, account } = await checkApprove({ deviceID })
-
-        if (ok && account) {
-          clearInterval(checkInterval)
-          onApproved(account)
-        }
       }
       catch (exc) {
         console.log(exc)
       }
-    }, frequencyMsec)
+    }, 1000)
     
     return () => {
-      console.log('UNMOUNT')
+      websocket.close()
       clearInterval(checkInterval)
     }
-  })
+  }, [])
 
   const renderTimeout = () => {
     return (
