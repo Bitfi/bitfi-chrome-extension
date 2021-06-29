@@ -15,7 +15,7 @@ listen(subjects.GET_ACCOUNT, async (data, reply) => {
 });
 
 listen(subjects.SIGN_TX, async (data, reply) => {
-  const response = await background.sendMessage.sendTx();
+  const response = await background.sendMessage.sendTx(data);
   reply(response);
 });
 

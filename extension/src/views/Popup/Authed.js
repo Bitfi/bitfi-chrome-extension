@@ -36,8 +36,6 @@ export default function({ user,logout }) {
       </CopyToClipboard>
       </p>
 
-
-        
       <p>
         Token: <strong>{format.address(user.token, 7)}</strong>
       </p>

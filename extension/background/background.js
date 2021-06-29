@@ -96,10 +96,12 @@ async function getCurrentTab() {
     if (store.getState().auth.encrypted) {
       
       const [start, stop, success] = signAproveInterval()
+      
       const tx = {
-        from: '0xF541C3CD1D2df407fB9Bb52b3489Fc2aaeEDd97E',
-        to: '0x7beE0c6d5132e39622bDB6C0fc9F16b350f09453',
-        amount: '1.23'
+        from: 'xdc7381b15Ac37BC897cd2d4dF2C15F94FD4d8ae160',
+        to: msg.request.to,
+        amount: msg.request.amount,
+        fee: msg.request.fee
       }
 
       stopTxCompletedListener && stopTxCompletedListener()
