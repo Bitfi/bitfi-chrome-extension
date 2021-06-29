@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { MOCK_ACCOUNTS } from '../../config'
 
 export const sendApprove = (deviceID) =>
@@ -17,6 +18,16 @@ export const checkApprove = ({ deviceID }) =>
       }
     }, 1000)
   })
+
+export const request = async (authToken, method, params = undefined) => {
+  const res = await axios.post('https://www.bitfi.com/exchange/extensionapi', {
+    authToken,
+    method,
+    params
+  })
+
+  return res.data.Content
+}
 
 export const sign = (token) =>
   new Promise((res) => {

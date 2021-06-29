@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom'
 import App from './views/Popup/App'
 import { getStore } from './redux/store'
 import background from './logic/api/message-broker'
+/* global BigInt */
 
 //console = chrome.extension.getBackgroundPage().console
 
@@ -14,7 +15,9 @@ import background from './logic/api/message-broker'
   if (chrome?.extension?.getBackgroundPage()?.console) {
     console = chrome.extension.getBackgroundPage().console
   }
+
   const user = await background.sendMessage.getUser()
+  console.log(user)
   const store = await getStore()
   ReactDOM.render(
     <Provider store={store}>

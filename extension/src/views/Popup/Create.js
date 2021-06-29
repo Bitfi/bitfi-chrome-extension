@@ -80,8 +80,10 @@ export default function({ init }) {
         //frequencyMsec={1000} 
         timeoutMsec={1000 * 120} 
         onApproved={({ address, token }) => {
-          if (waitApproval)
+          if (waitApproval) {
+            console.log('SET', address, token, data[fields.deviceID])
             setAccount({ address, token, deviceID: data[fields.deviceID] })
+          }
         }}
         onBack={() => {
           setWaitApproval(false)

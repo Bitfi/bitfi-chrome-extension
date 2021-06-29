@@ -76,6 +76,7 @@ async function getCurrentTab() {
   });
   
   background.addListener.login((msg, sender) => {
+    console.log('ON LOGIN')
     user = {
       address: msg.address,
       token: msg.token,

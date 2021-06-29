@@ -20,6 +20,7 @@ function App({ userDecrypted }) {
   const [user, setUser] = useState(userDecrypted)
 
   const login = async ({ address, token, deviceID }) => {
+    console.log('LOGIN')
     const user = await background.sendMessage.login({ address, token, deviceID })
     setUser(user)
   }
