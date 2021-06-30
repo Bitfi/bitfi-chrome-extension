@@ -20,7 +20,6 @@ function App({ userDecrypted }) {
   const [user, setUser] = useState(userDecrypted)
 
   const login = async ({ address, token, deviceID }) => {
-    console.log('LOGIN')
     const user = await background.sendMessage.login({ address, token, deviceID })
     setUser(user)
   }
@@ -30,7 +29,6 @@ function App({ userDecrypted }) {
     setUser(user)
   }
 
-  
   const renderPending = (user) => {
     const pendingItem = pending[0]
     const { from, to, amount } = pendingItem

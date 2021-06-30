@@ -5,9 +5,9 @@ import useAccount from './hooks/useAccount';
 
 function App() {
   const [loading, setLoading] = useState(false)
-  const [amount, setAmount] = useState(null)
-  const [to, setTo] = useState(null)
-  const [fee, setFee] = useState(null)
+  const [amount, setAmount] = useState('0.1')
+  const [to, setTo] = useState('xdc7381b15Ac37BC897cd2d4dF2C15F94FD4d8ae160')
+  const [fee, setFee] = useState('1')
 
   const bitfi = useBitfi()
   let account = useAccount()
