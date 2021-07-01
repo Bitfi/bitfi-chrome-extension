@@ -1,9 +1,10 @@
-const type = {
-  LOGIN: 'LOGIN',
-  GET_USER: 'GET_USER',
-  LOGOUT: 'LOGOUT',
-  SEND_TRANSACTION: 'SEND_TRANSACTION',
-  TX_COMPLETED: 'TX_COMPLETED'
+const subjects = {
+  getUser: 'LOGIN',
+  login: 'GET_USER',
+  logout: 'LOGOUT',
+  sendTx: 'SEND_TRANSACTION',
+  txCompleted: 'TX_COMPLETED',
+  onExpand: 'ON_EXPAND'
 }
 
 const sendMessage = type => data => new Promise((res, rej) => {
@@ -42,19 +43,17 @@ const addListener = type => handler => {
 }
 
 export default {
-  addListener: {
-    getUser: addListener(type.GET_USER),
-    login: addListener(type.LOGIN),
-    logout: addListener(type.LOGOUT),
-    sendTx: addListener(type.SEND_TRANSACTION),
-    txCompleted: addListener(type.TX_COMPLETED)
-  },
-
-  sendMessage: {
-    getUser: sendMessage(type.GET_USER),
-    login: sendMessage(type.LOGIN),
-    logout: sendMessage(type.LOGOUT),
-    sendTx: sendMessage(type.SEND_TRANSACTION),
-    txCompleted: sendMessage(type.TX_COMPLETED)
-  }
+  addListener: Object.entries(subjects).reduce(
+    (acc, [method, subject]) => ({
+      ...acc,
+      [method]: addListener(subject)
+    }), 
+  {}),
+  
+  sendMessage: Object.entries(subjects).reduce(
+    (acc, [method, subject]) => ({
+      ...acc,
+      [method]: sendMessage(subject)
+    }), 
+  {})
 }

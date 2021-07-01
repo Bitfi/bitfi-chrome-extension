@@ -87,6 +87,14 @@ input:focus {
   outline: none;
 }
 
+.hoverable {
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  opacity: 0.8;
+}
+
 button[disabled], 
 input[disabled] {
   cursor: not-allowed;

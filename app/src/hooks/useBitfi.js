@@ -31,10 +31,13 @@ async function connectBitfi(intervalMsec = 1000, timeoutMsec = 3000) {
 export default (intervalMsec = 1000, timeoutMsec = 3000) => {
   const [bitfi, setClient] = useState(null)
   
-  useEffect(async () => { 
+  const connect = async () => {
     const bitfiClient = await connectBitfi(intervalMsec, timeoutMsec)
     setClient(bitfiClient)
-  })
+  }
+  useEffect(() => { 
+    connect()  
+  }, [])
 
   return bitfi
 }

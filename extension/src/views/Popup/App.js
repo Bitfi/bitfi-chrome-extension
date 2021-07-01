@@ -10,8 +10,9 @@ import background from '../../logic/api/message-broker'
 import Pending from './Pending';
 
 function App({ userDecrypted }) {
+
   const { encrypted } = useSelector(state => state.auth)
-  const { pending, pendingEmpty } = useSelector(state => state.request)
+  const { pendingEmpty } = useSelector(state => state.request)
 
   const dispatch = useDispatch()
   const reset = () => dispatch(resetAction())
@@ -30,15 +31,10 @@ function App({ userDecrypted }) {
   }
 
   const renderPending = (user) => {
-    const pendingItem = pending[0]
-    const { from, to, amount } = pendingItem
-    
+
     return (
       <Pending
         user={user}
-        from={from}
-        to={to}
-        amount={amount}
       />
     )
   }
@@ -56,9 +52,10 @@ function App({ userDecrypted }) {
     return <Authed logout={logout} user={user}/>
   }
 
+  
   return (
     <div className="App">
-      <Header/>
+      <Header deviceID={user && user.deviceID}/>
       <div className="w-100 h-100 d-flex align-items-center justify-content-center px-4">
         {renderContent()}
       </div>

@@ -28,8 +28,8 @@ export default function({
         setDisplayToken(response.DisplayToken)
       }
       
-      response.ExchangeToken = "fmwjEZG6zr3jwzR29E6UDYpixCwAT7Uatep7MDqZvmEQG/xo8lab0X0ru2ApNVkZvSHK4hMRIyWgGBQmVTT9qb8OcD7JLB7CpevIIGKSfY8DtPIAh+fBZMZRSeCACBpV49KlrHt9AHQ2TNskkt/+cXRR7d+uea2SPCalAC3IWYM0jA4xw3MC6rgy177Ty6EI+7s3pjOFuxGSmApMuvsfSA=="
-      response.Completed = true
+      //response.ExchangeToken = "fmwjEZG6zr3jwzR29E6UDYpixCwAT7Uatep7MDqZvmEQG/xo8lab0X0ru2ApNVkZvSHK4hMRIyWgGBQmVTT9qb8OcD7JLB7CpevIIGKSfY8DtPIAh+fBZMZRSeCACBpV49KlrHt9AHQ2TNskkt/+cXRR7d+uea2SPCalAC3IWYM0jA4xw3MC6rgy177Ty6EI+7s3pjOFuxGSmApMuvsfSA=="
+      //response.Completed = true
 
       if (response.Completed) {
         const token = response.ExchangeToken 

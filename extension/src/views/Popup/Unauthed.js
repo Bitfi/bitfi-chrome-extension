@@ -45,7 +45,7 @@ export default function({ login, reset, encrypted }) {
 
   return (
     <div className="text-center w-100">
-      <h3 className="title">Welcome back!!</h3>
+      <h2 className="title"><strong>Welcome back</strong></h2>
       <p>
         The decentralized web awaits!
       </p>

@@ -1,4 +1,4 @@
-import { inject } from '../src/logic/messaging';
+import { inject } from '../src/logic/injection-api';
 import background from '../src/logic/api/message-broker';
 
 inject();

@@ -95,7 +95,7 @@ export default function({ init }) {
 
   return (
     <div className="text-center w-100">
-      <h3>Initialization!</h3>
+      <h2><strong>Initialization</strong></h2>
       <p>
         Enter your Bitfi device ID
       </p>

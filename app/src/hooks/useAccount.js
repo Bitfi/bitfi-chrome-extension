@@ -11,6 +11,8 @@ export default (intervalMsec = 3000) => {
     try {
       if (bitfi) {
         const account = await bitfi.getAccount()
+
+        console.log(account)
         setAccount(account)
       }
     }
@@ -20,9 +22,8 @@ export default (intervalMsec = 3000) => {
     }
   } 
 
-  useEffect(async () => { 
-    await updateAccount()
-    
+  useEffect(() => { 
+    updateAccount()
     clearInterval(updateInterval)
     updateInterval = setInterval(updateAccount, intervalMsec)
 

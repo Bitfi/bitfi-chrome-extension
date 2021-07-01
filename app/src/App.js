@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import useBitfi from './hooks/useBitfi'
-import './App.css';
 import useAccount from './hooks/useAccount';
+import './App.css';
+import satoshi from './utils/satoshi';
+
+function toSatoshi(v) {
+  return bigInt(v).multiply(bigInt(10).pow(18))
+}
 
 function App() {
   const [loading, setLoading] = useState(false)
   const [amount, setAmount] = useState('0.1')
   const [to, setTo] = useState('xdc7381b15Ac37BC897cd2d4dF2C15F94FD4d8ae160')
-  const [fee, setFee] = useState('1')
+  const [gasPrice, setGasPrice] = useState('1')
 
   const bitfi = useBitfi()
   let account = useAccount()
@@ -20,9 +25,10 @@ function App() {
         { 
           timeoutMsec: 60 * 1000,
           data: {
-            amount, 
+            amount: satoshi.to(amount, 18).toString(), 
             to,
-            fee
+            //gwei to sat
+            gasPrice: satoshi.to(gasPrice, 10).toString()
           }
         }
       )
@@ -40,7 +46,7 @@ function App() {
               {`${account.slice(0, 8)}...${account.slice(account.length - 8)}` || 'not_initialized'}
             </div> :
             <div>
-              Waiting for bitfi wallet
+              Please, login to your bitfi extension
             </div>
         }
         
@@ -68,10 +74,10 @@ function App() {
             <input
               className="form-control mb-2"  
               placeholder="fee (Gwei)" 
-              value={fee} 
-              onChange={e => 
-                setFee(e.target.value)
-              } 
+              value={gasPrice} 
+              onChange={e => {
+                setGasPrice(e.target.value)
+              }} 
             />
           </div>
 

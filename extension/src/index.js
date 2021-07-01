@@ -12,6 +12,8 @@ import background from './logic/api/message-broker'
 //console = chrome.extension.getBackgroundPage().console
 
 (async () => {
+
+
   if (chrome?.extension?.getBackgroundPage()?.console) {
     console = chrome.extension.getBackgroundPage().console
   }
@@ -19,6 +21,7 @@ import background from './logic/api/message-broker'
   const user = await background.sendMessage.getUser()
   console.log(user)
   const store = await getStore()
+
   ReactDOM.render(
     <Provider store={store}>
       <App userDecrypted={user}/>

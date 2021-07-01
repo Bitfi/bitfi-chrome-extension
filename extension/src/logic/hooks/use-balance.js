@@ -20,8 +20,8 @@ export default (account) => {
     }
   }
 
-  useEffect(async () => {
-    await fetchBalance()
+  useEffect(() => {
+    fetchBalance()
     const interval = setInterval(async () => {
       await fetchBalance()
     }, 3000)

@@ -3,6 +3,7 @@ import { getStore } from '../src/redux/store';
 import background from '../src/logic/api/message-broker';
 import { addPending } from '../src/redux/actions';
 import { checkApprove } from '../src/logic/api/bitfi-server';
+import satoshi from '../src/logic/utils/satoshi';
 
 
 const signAproveInterval = () => {
@@ -67,7 +68,6 @@ async function getCurrentTab() {
 
 (async () => {
   
-
   var user = null;
   const store = await getStore();
 
@@ -77,6 +77,7 @@ async function getCurrentTab() {
   
   background.addListener.login((msg, sender) => {
     console.log('ON LOGIN')
+    
     user = {
       address: msg.address,
       token: msg.token,
@@ -84,6 +85,10 @@ async function getCurrentTab() {
     };
     return user
   });
+
+  background.addListener.onExpand(() => {
+    chrome.tabs.create({url: 'index.html', active: false});
+  })
 
   background.addListener.logout((msg, sender) => {
     user = null;
@@ -93,6 +98,7 @@ async function getCurrentTab() {
   let stopTxCompletedListener = null
 
   background.addListener.sendTx(async (msg, sender) => {
+
     if (store.getState().auth.encrypted) {
       
       const [start, stop, success] = signAproveInterval()
@@ -100,8 +106,14 @@ async function getCurrentTab() {
       const tx = {
         from: 'xdc7381b15Ac37BC897cd2d4dF2C15F94FD4d8ae160',
         to: msg.request.to,
-        amount: msg.request.amount,
-        fee: msg.request.fee
+        amount: {
+          sat: msg.request.amount,
+          btc: satoshi.from(msg.request.amount, 18)
+        },
+        gasPrice: {
+          sat: msg.request.gasPrice,
+          btc: satoshi.from(msg.request.gasPrice, 18)
+        }
       }
 
       stopTxCompletedListener && stopTxCompletedListener()
@@ -119,16 +131,20 @@ async function getCurrentTab() {
 
       store.dispatch(addPending(tx))
 
-      const res = await start({ deviceID: 'aaaaaa' })
+      const res = await start()
       return res
     }
 
     return true
   })
 
+
+
   if (store.getState().request.pending.length > 0) {
     chrome.browserAction.setBadgeText({ text: store.getState().request.pending.length.toString() })
   }
+
+
 
   store.subscribe(async () => {
     if (store.getState().request.pending.length > 0) {
