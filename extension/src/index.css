@@ -101,3 +101,9 @@ input[disabled] {
   opacity: 0.5;
 }
 
+
+.alert-bitfi {
+  color: #3a3838;
+  background-color: #e4c990;
+  border-color: #ad9a6b;
+}

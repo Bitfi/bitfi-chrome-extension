@@ -93,26 +93,39 @@ export default function Pending({ user }) {
   }
 
   return (
-    <div className="text-center w-100">
+    <div className="text-center w-100" style={{ overflow: 'scroll'}}>
       {refreshing && <div>...refreshing...</div>}
 
       
-      <h3>
-        Sign Request
-      </h3>
+      <h2>
+        SIGN REQUEST
+      </h2>
+      <p className="m-0">
+        The request will be sent to your bitfi device
+      </p>
       <br/>
 
-      <h1><strong>{format.btc(amount.btc, 3, 'XDC')}</strong></h1>
-      <p>fee: {format.btc(fee.btc, 7, '')}</p>
-
-      <p>from: {format.address(from)}</p>
-      <p>to: {format.address(to)}</p>
+      <div class="alert alert-bitfi pb-1 pt-1" role="alert">
+        <h1><strong>{format.btc(amount.btc, 3, 'XDC')}</strong></h1>
+        <p className="m-0">fee: {format.btc(fee.btc, 7, '')}</p>
+      </div>
       
-      <p>deviceID: {user.deviceID}</p>
 
+
+      <div class="alert alert-bitfi pt-1 pb-1" role="alert">
+        <p className="m-0"><strong>TO</strong></p>
+        <p className="m-0" style={{ wordWrap: 'break-word'}}>{to}</p>
+      </div>
+
+{
+  /*
+      <p className="m-0"><strong>DEVICE ID</strong></p>
+      <p>{user.deviceID.toUpperCase()}</p>
+  */
+}
         <button 
           
-          className={`w-100 button-primary ${canRequest && !loading? '' : 'disabled'} `}
+          className={`w-100 button-primary mt-0 ${canRequest && !loading? '' : 'disabled'} `}
           onClick={onRequest}
         >
           SEND REQUEST {canRequest? '' : `(${secsUntilNewReq})` }
@@ -122,7 +135,7 @@ export default function Pending({ user }) {
             dispatch(removePending())
             await background.sendMessage.txCompleted({ error: 'Tx rejected' })
           }}
-          className="w-100 button-primary"
+          className="w-100 button-primary mt-2"
         >
           REJECT
         </button>

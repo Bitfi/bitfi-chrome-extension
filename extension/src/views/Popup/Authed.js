@@ -47,11 +47,24 @@ export default function({ user,logout }) {
         */
 
       }
-      
-      <p>
-        Device ID: <strong>{user.deviceID.toUpperCase()}</strong>
-      </p>
+      {
+        /*
+        <p>
+          Device ID: <strong>{user.deviceID.toUpperCase()}</strong>
+        </p>
+        */
+      }
 
+      <div className="d-flex">
+      <button 
+        className="w-100 button-primary" 
+        onClick={() => window.open(`https://explorer.xinfin.network/addr/${user.address}`,'_blank')}
+        style={{ marginLeft: '2px' }}
+      >
+        TX HISTORY
+      </button>
+
+      </div>
       <button 
         className="w-100 button-primary" 
         onClick={logout}

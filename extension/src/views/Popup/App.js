@@ -56,7 +56,7 @@ function App({ userDecrypted }) {
   return (
     <div className="App">
       <Header deviceID={user && user.deviceID}/>
-      <div className="w-100 h-100 d-flex align-items-center justify-content-center px-4">
+      <div className="w-100 h-100 d-flex align-items-center justify-content-center px-4" >
         {renderContent()}
       </div>
     </div>
