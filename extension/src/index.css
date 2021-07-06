@@ -4,6 +4,8 @@
   --h-color: #4d4d4d;
   --button-main-color: #1b0056;
   --button-main-text-color: white;
+  --extension-height-px: 650px;
+  --extension-width-px: 357px;
 }
 
 * {
@@ -15,8 +17,8 @@ body {
   border: 0;
   margin: 0 !important;
   padding: 0 !important;
-  width: 357px; 
-  height: 600px;
+  width: var(--extension-width-px); 
+  height: var(--extension-height-px);
   overflow: hidden;
   color: #6a737d;
 }

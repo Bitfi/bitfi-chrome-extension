@@ -1,10 +1,17 @@
 
 
 .App {
-  height: 100vh;
   width: 100%;
   margin: 0;
+  height: var(--extension-height-px) !important;
   border: 1px solid #d6d6d6;
+  overflow-y: scroll;
+  padding-top: var(--header-height-px);
+
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .App-view {

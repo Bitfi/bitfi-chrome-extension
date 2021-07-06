@@ -41,12 +41,18 @@ export default function({ onSuccess, className }) {
 
   return (
     <div className={`${className}`}>
-      <h3>
+      <h3 className="mt-4">
         Password creation
       </h3>
       <p>
         you need to come up with a password
       </p>
+      <div class="alert alert-danger" role="alert">
+        Please, <strong>DON'T ENTER</strong> you <strong>SALT</strong> and <strong>SECRET PHRASE</strong>! This password is used
+        to encrypt some sensitive private data, as your wallet addresses and etc. Leakage of such
+        data <strong>WON'T LEAD</strong> to your funds being stolen, but it's still better to keep it secret. If you happen to forgot the password
+        you will be able to restore it by going through the initialization process again, so don't worry about that!
+      </div>
       <div>
         <div>
           <input 

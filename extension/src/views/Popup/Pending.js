@@ -68,6 +68,7 @@ export default function Pending({ user }) {
     try {
       setLoading(true)
 
+      console.log(user.token)
       const response = await request(user.token, 'Transfer', {
         info: {
           to,
@@ -80,6 +81,7 @@ export default function Pending({ user }) {
           }
         }
       })
+      console.log(response)
       setLoading(false)
       setLastReqTime(Date.now())
       dispatch(removePending())
@@ -93,35 +95,35 @@ export default function Pending({ user }) {
   }
 
   return (
-    <div className="text-center w-100" style={{ overflow: 'scroll'}}>
+    <div className="text-center w-100">
       {refreshing && <div>...refreshing...</div>}
 
       
-      <h2>
-        SIGN REQUEST
-      </h2>
+      <h3 className="mt-0 pt-0">
+        <strong>SIGN REQUEST</strong>
+      </h3>
       <p className="m-0">
         The request will be sent to your bitfi device
       </p>
       <br/>
 
-      <div class="alert alert-bitfi pb-1 pt-1" role="alert">
+      <div class="alert alert-danger pb-1 pt-1" role="alert">
         <h1><strong>{format.btc(amount.btc, 3, 'XDC')}</strong></h1>
         <p className="m-0">fee: {format.btc(fee.btc, 7, '')}</p>
       </div>
       
 
 
-      <div class="alert alert-bitfi pt-1 pb-1" role="alert">
+      <div class="alert alert-danger pt-1 pb-1" role="alert">
         <p className="m-0"><strong>TO</strong></p>
         <p className="m-0" style={{ wordWrap: 'break-word'}}>{to}</p>
       </div>
 
 {
-  /*
-      <p className="m-0"><strong>DEVICE ID</strong></p>
-      <p>{user.deviceID.toUpperCase()}</p>
-  */
+      <div class="alert alert-secondary pt-1 pb-1" role="alert">
+      <p className="m-0"><strong>FROM</strong></p>
+      <p className="m-0" style={{ wordWrap: 'break-word'}}>{from}</p>
+    </div>
 }
         <button 
           

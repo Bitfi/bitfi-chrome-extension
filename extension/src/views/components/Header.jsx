@@ -4,7 +4,7 @@ import './styles/Header.css'
 
 export default function({ deviceID }) {
   return (
-    <header className="p-3 Header-container" style={{ position: 'relative'}}>
+    <header className="p-3 Header-container" style={{ position: 'absolute', left: 0, top: 0, width: 'var(--extension-width-px)' }}>
       <div className="d-flex w-100 h-100 align-items-center justify-content-between">
         <img className="pl-2" src="logo.svg" height="45" />
 
