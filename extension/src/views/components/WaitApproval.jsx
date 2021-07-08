@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { request as requestBitfi } from '../../logic/api/bitfi-server'
-
-
-
 
 export default function({ 
   className, frequencyMsec, deviceID, 
@@ -10,7 +6,6 @@ export default function({
 }) {
   const [timeout, setTimeout] = useState(false)
   const [secsLeft, setSecsLeft] = useState(timeoutMsec)
-  const [needCreateAccout, setNeedCreateAccount] = useState(false)
   const [displayToken, setDisplayToken] = useState(null)
   let websocket = new WebSocket("wss://bitfi.com/NoxWSHandler/NoxWS.ashx");
     
@@ -49,7 +44,7 @@ export default function({
     websocket.addEventListener('message', async function (e) {
       
       const response = JSON.parse(e.data)
-      console.log(response)
+      
       if (response.DisplayToken) {
         setDisplayToken(
           <div>
@@ -65,21 +60,9 @@ export default function({
 
       if (response.Completed) {
         const token = response.ExchangeToken 
-        const accounts = await requestBitfi(token, 'GetAddresses')
-        
-        if (accounts[0]) {
-
-          onApproved({
-            address: accounts[0],
-            token
-          })
-          
-        }
-        else {
-          setNeedCreateAccount(true)
-          return 
-        }
-
+        onApproved({
+          token
+        })
       }
     });
     
@@ -132,27 +115,13 @@ export default function({
     return renderTimeout()
   }
 
-  if (needCreateAccout) {
-    return (
-      <div className={`${className} text-center`}>
-        <h4 className="mb-0">
-          Account is not created
-        </h4>
-
-        <button className="button-primary">
-          CREATE
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className={`${className}`}>
       
 
       {
         displayToken && 
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-warning" role="alert">
           {displayToken}
         </div>  
         

@@ -20,13 +20,6 @@ export const checkApprove = ({ deviceID }) =>
   })
 
 export const request = async (authToken, method, params = undefined) => {
-
-
-  console.log({
-    authToken,
-    method,
-    transferModel: params
-  })
   const res = await axios.post('https://www.bitfi.com/exchange/extensionapi', {
     authToken,
     method,
@@ -37,10 +30,16 @@ export const request = async (authToken, method, params = undefined) => {
   if (res.data.error)
     throw res.data.error
 
-  return res.data.Content || res.data.content
+  return res.data.Content || res.data.content || res.data
 }
 
 export const sign = (token) =>
   new Promise((res) => {
     setTimeout(() => res({ ok: true }))
   });
+
+
+export default {
+  sign,
+  request
+}

@@ -8,6 +8,7 @@ const fields = {
 }
 
 export default function({ login, reset, encrypted }) {
+  const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
     handleChange,
@@ -34,9 +35,18 @@ export default function({ login, reset, encrypted }) {
         }
       },
     },
-    onSubmit: data => {
-      const { address, token, deviceID } = aes.decrypt(encrypted, data[fields.password])
-      login({ address, token, deviceID })
+    onSubmit: async data => {
+      try {
+        setLoading(true)
+        const { token, deviceID } = aes.decrypt(encrypted, data[fields.password])
+        await login({ token, deviceID })
+      }
+      catch (exc) {
+        console.log(exc)
+      }
+      finally {
+        setLoading(false)
+      }
     },
     initialValues: {
       [fields.deviceID]: 'AAAAAA',
@@ -60,7 +70,7 @@ export default function({ login, reset, encrypted }) {
       {errors[fields.password] && <p className="error">{errors[fields.password]}</p>}
       <div>
         <button 
-          className="w-100 button-primary" 
+          className={`w-100 button-primary ${!loading? '' : 'disabled'}`} 
           onClick={handleSubmit}
         >
           UNLOCK

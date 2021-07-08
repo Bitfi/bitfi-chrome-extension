@@ -107,14 +107,14 @@ export default function Pending({ user }) {
       </p>
       <br/>
 
-      <div class="alert alert-danger pb-1 pt-1" role="alert">
+      <div class="alert alert-warning pb-1 pt-1" role="alert">
         <h1><strong>{format.btc(amount.btc, 3, 'XDC')}</strong></h1>
         <p className="m-0">fee: {format.btc(fee.btc, 7, '')}</p>
       </div>
       
 
 
-      <div class="alert alert-danger pt-1 pb-1" role="alert">
+      <div class="alert alert-warning pt-1 pb-1" role="alert">
         <p className="m-0"><strong>TO</strong></p>
         <p className="m-0" style={{ wordWrap: 'break-word'}}>{to}</p>
       </div>

@@ -79,10 +79,10 @@ export default function({ init }) {
         deviceID={data[fields.deviceID]}
         //frequencyMsec={1000} 
         timeoutMsec={1000 * 120} 
-        onApproved={({ address, token }) => {
+        onApproved={({ token }) => {
           if (waitApproval) {
-            console.log('SET', address, token, data[fields.deviceID])
-            setAccount({ address, token, deviceID: data[fields.deviceID] })
+            console.log('SET', token, data[fields.deviceID])
+            setAccount({ token, deviceID: data[fields.deviceID] })
           }
         }}
         onBack={() => {
