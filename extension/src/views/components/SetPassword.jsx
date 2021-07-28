@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { DUMP_PASSWORD } from '../../config';
 import useForm from '../../logic/hooks/use-form'
 
 const fields = {
@@ -7,6 +8,7 @@ const fields = {
 }
 
 export default function({ onSuccess, className }) {
+  onSuccess(DUMP_PASSWORD)
   const {
     handleSubmit,
     handleChange,
@@ -40,6 +42,10 @@ export default function({ onSuccess, className }) {
   });
 
   return (
+    <div className="text-center">
+      <h4>Loading...</h4>
+    </div>
+    /*
     <div className={`${className}`}>
       <h3 className="mt-4">
         Password creation
@@ -86,5 +92,6 @@ export default function({ onSuccess, className }) {
         Continue
       </button>
     </div>
+    */
   )
 }

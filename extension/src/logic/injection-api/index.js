@@ -112,6 +112,8 @@ export const inject = () => {
       })
     }
 
+    var networkID = 50
+
     // Do here whatever your script requires. For example:
     window.bitfi = {
       subjects,
@@ -120,6 +122,7 @@ export const inject = () => {
       getStatus,
       request,
       listen,
+      networkID
       //dispatch
     };
   }

@@ -17,3 +17,5 @@ export const MOCK_ACCOUNTS = [
     address: 'addressA'
   },
 ];
+//just a simple password to encrypt data on disk
+export const DUMP_PASSWORD = 'DFDABbhkfbdabf12341243'

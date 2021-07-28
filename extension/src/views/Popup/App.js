@@ -138,7 +138,7 @@ function App({ userDecrypted }) {
     if (!pendingEmpty)
       return renderPending(user)
 
-    return <Authed logout={logout} user={user}/>
+    return <Authed logout={logout} user={user} reset={reset}/>
   }
 
   

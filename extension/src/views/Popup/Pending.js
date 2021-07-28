@@ -69,6 +69,7 @@ export default function Pending({ user }) {
       setLoading(true)
 
       console.log(user.token)
+      
       const response = await request(user.token, 'Transfer', {
         info: {
           to,

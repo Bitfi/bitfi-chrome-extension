@@ -6,7 +6,7 @@ import { addPending } from '../../redux/actions'
 import useBalance from '../../logic/hooks/use-balance';
 import './styles/Authed.css'
 
-export default function({ user,logout }) {
+export default function({ user, logout, reset }) {
   const [copied, setCopied] = useState(false)
   const { balance } = useBalance(user.address)
   
@@ -67,7 +67,7 @@ export default function({ user,logout }) {
       </div>
       <button 
         className="w-100 button-primary" 
-        onClick={logout}
+        onClick={reset}
       >
         LOGOUT
       </button>

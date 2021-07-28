@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { DUMP_PASSWORD } from '../../config'
 import useForm from '../../logic/hooks/use-form'
 import aes from '../../logic/utils/aes'
 import './styles/Unauthed.css'
@@ -8,6 +9,9 @@ const fields = {
 }
 
 export default function({ login, reset, encrypted }) {
+  const { token, deviceID } = aes.decrypt(encrypted, DUMP_PASSWORD)
+  login({ token, deviceID })
+  
   const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
@@ -54,6 +58,13 @@ export default function({ login, reset, encrypted }) {
   });
 
   return (
+    <div className="text-center">
+      <h4>...authenticating...</h4>
+    </div>
+    
+    
+    /*
+    </div>
     <div className="text-center w-100">
       <h2 className="title"><strong>Welcome back</strong></h2>
       <p>
@@ -78,5 +89,6 @@ export default function({ login, reset, encrypted }) {
       </div>
       <a href="#" onClick={reset}>forgot your password? click here</a>
     </div>
+    */
   )
 }
