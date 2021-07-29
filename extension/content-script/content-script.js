@@ -5,7 +5,7 @@ inject();
 const { listen, subjects, status, dispatch } = window.bitfi;
 
 listen(subjects.GET_STATUS, async (data, reply) => {
-  const user = await ndMessage.getUser();
+  const user = await background.sendMessage.getUser();
   reply(user ? status.READY : status.NOT_AUTHORIZED);
 });
 
@@ -18,6 +18,12 @@ listen(subjects.SIGN_TX, async (data, reply) => {
   const response = await background.sendMessage.sendTx(data);
   reply(response);
 });
+
+listen(subjects.EXPAND, async (data, reply) => {
+  console.log('ON EXPAND')
+  await background.sendMessage.onExpand(data);
+  reply(true);
+})
 
 /*
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {

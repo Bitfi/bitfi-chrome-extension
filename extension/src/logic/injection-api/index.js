@@ -14,7 +14,8 @@ export const inject = () => {
       ACCOUNT_CHANGED: 'ACCOUNT_CHANGED',
       GET_STATUS: 'GET_STATUS',
       GET_ACCOUNT: 'GET_ACCOUNT',
-      SIGN_TX: 'SIGN_TX'
+      SIGN_TX: 'SIGN_TX',
+      EXPAND: 'EXPAND'
     }
     
     var status = {

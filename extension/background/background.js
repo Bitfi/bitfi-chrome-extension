@@ -97,8 +97,9 @@ async function getCurrentTab() {
     return user
   });
 
+
   background.addListener.onExpand(() => {
-    chrome.tabs.create({url: 'index.html', active: false});
+    chrome.tabs.create({url: 'index.html', active: true});
   })
 
   background.addListener.logout((msg, sender) => {
@@ -126,7 +127,7 @@ async function getCurrentTab() {
     if (store.getState().auth.encrypted) {
       
       const [start, stop, success] = signAproveInterval()
-      console.log(msg.request)
+      
       const tx = {
         from: ensureXdcPrefix(msg.request.from),
         to: ensureXdcPrefix(msg.request.to),
@@ -137,8 +138,12 @@ async function getCurrentTab() {
         gasPrice: {
           sat: msg.request.gasPrice,
           btc: satoshi.from(msg.request.gasPrice, 18)
-        }
+        },
+        gasLimit: msg.request.gasLimit
       }
+
+      console.log(tx)
+      console.log('TX IS HERE')
 
       stopTxCompletedListener && stopTxCompletedListener()
       stopTxCompletedListener = background.addListener.txCompleted((msg, sender) => {
@@ -156,6 +161,8 @@ async function getCurrentTab() {
       store.dispatch(addPending(tx))
 
       const res = await start()
+      
+
       return res
     }
 

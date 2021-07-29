@@ -12,9 +12,9 @@ const REQUEST_DELAY = 1000 * 5
 const DEFAULT_GAS_LIMIT = 21000
 
 export default function Pending({ user }) {
-  const { from, to, type, amount, gasPrice } = useSelector(state => state.request.pending[0])
+  const { from, to, type, amount, gasPrice, gasLimit } = useSelector(state => state.request.pending[0])
 
-  const feeSat = bigInt(gasPrice.sat).multiply(DEFAULT_GAS_LIMIT).toString()
+  const feeSat = bigInt(gasPrice.sat).multiply(bigInt(gasLimit)).toString()
   const fee = {
     sat: feeSat,
     btc: satoshi.from(feeSat, 18).toString()
@@ -78,6 +78,7 @@ export default function Pending({ user }) {
           amount,
           fee: gasPrice,
           addition: {
+            gasLimit: gasLimit,
             feePriority: 'Medium',
           }
         }
