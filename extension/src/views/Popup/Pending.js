@@ -68,22 +68,18 @@ export default function Pending({ user }) {
     try {
       setLoading(true)
 
-      console.log(user.token)
-      
-      const response = await request(user.token, 'Transfer', {
-        info: {
-          to,
-          from: user.address,
-          symbol: 'xdc',
-          amount,
-          fee: gasPrice,
-          addition: {
-            gasLimit: gasLimit,
-            feePriority: 'Medium',
-          }
+      const info = {
+        to,
+        from: user.address,
+        symbol: 'xdc',
+        amount,
+        fee: gasPrice,
+        addition: {
+          gasLimit: gasLimit,
+          feePriority: 'Medium',
         }
-      })
-      console.log(response)
+      }
+      const response = await request(user.token, 'Transfer', { info })
       setLoading(false)
       setLastReqTime(Date.now())
       dispatch(removePending())

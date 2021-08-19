@@ -19,7 +19,7 @@ import background from './logic/api/message-broker'
   }
 
   const user = await background.sendMessage.getUser()
-  console.log(user)
+  //console.log(user)
   const store = await getStore()
 
   ReactDOM.render(

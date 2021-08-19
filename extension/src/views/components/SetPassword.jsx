@@ -35,7 +35,7 @@ export default function({ onSuccess, className }) {
       }
     },
     onSubmit: data => {
-      console.log(data)
+      //console.log(data)
       console.log('SUCCESS')
       onSuccess(data[fields.password])
     }

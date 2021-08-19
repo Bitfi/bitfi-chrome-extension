@@ -1,18 +1,9 @@
 import { BITFI_LOCALSTORAGE_KEY, STORAGE_AREA } from '../../config'
+import { promisify } from '../utils/promisify'
 import aes from '../utils/aes'
 
 const defaultKey = BITFI_LOCALSTORAGE_KEY
 const area = STORAGE_AREA
-
-const promisify = f => new Promise((res, rej) => {
-  f(_ => {
-    var err = chrome.runtime.lastError
-    if (err) 
-      rej(err)
-    else 
-      res(_)
-  })
-})
 
 const defaultEncryptor = aes
 

@@ -6,7 +6,7 @@ import { checkApprove } from '../src/logic/api/bitfi-server';
 import satoshi from '../src/logic/utils/satoshi';
 import { DUMP_PASSWORD } from '../src/config';
 import aes from '../src/logic/utils/aes';
-
+import { promisify } from '../src/logic/utils/promisify';
 
 const signAproveInterval = () => {
   let error = false
@@ -97,8 +97,51 @@ async function getCurrentTab() {
     return user
   });
 
+  function isOurTab() {
+    return false
+  }
 
-  background.addListener.onExpand(() => {
+  function goToTab() {
+
+
+
+    chrome.tabs.query({active: true}, function(tabs) {
+      if (tabs.length < 2) {
+        chrome.tabs.create({url: "index.html"});
+        return
+      }
+
+      for (var i = 0, tab; tab = tabs[i]; i++) {
+        
+        console.log(tab.id)
+        chrome.tabs.update(tab.id, {selected: true})
+        return;
+        
+        
+      }
+      
+    });
+  }
+
+
+  async function newTab() {
+    const { block } = await promisify(cb => chrome.storage.local.get('block', cb))
+
+
+    if (!block) {
+      await promisify(cb => chrome.storage.local.set({ 'block': true }, cb))
+      console.log(await promisify(cb => chrome.storage.local.get('block', cb)))
+      chrome.tabs.create({url: 'index.html', active: true});
+    }
+
+    setTimeout(async () => {
+      console.log('FALSE')
+      await promisify(cb => chrome.storage.local.set({ 'block': false }, cb))
+    }, 10000)
+  }
+
+  background.addListener.onExpand(async () => {
+    //newTab()
     chrome.tabs.create({url: 'index.html', active: true});
   })
 
@@ -142,8 +185,7 @@ async function getCurrentTab() {
         gasLimit: msg.request.gasLimit
       }
 
-      console.log(tx)
-      console.log('TX IS HERE')
+      //console.log(tx)
 
       stopTxCompletedListener && stopTxCompletedListener()
       stopTxCompletedListener = background.addListener.txCompleted((msg, sender) => {

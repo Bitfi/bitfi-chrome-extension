@@ -26,13 +26,14 @@ function App({ userDecrypted }) {
 
   const login = async ({ token, deviceID }) => {
     const tokenValid = await bitfi.request(token, 'IsTokenValid')
-    const accounts = await bitfi.request(token, 'GetAddresses')
-
+    
     if (!tokenValid) {
       reset()
       setExpired(true)
       return 
     }
+
+    const accounts = await bitfi.request(token, 'GetAddresses')
 
     if (!accounts[0]) { 
       setNeedCreateAccount(true)
@@ -49,7 +50,7 @@ function App({ userDecrypted }) {
   const create = async () => {
     setLoading(true)
     const response = await bitfi.request(info.token, 'AddAddress')
-    console.log(response)
+    //console.log(response)
     setLoading(false)
   }
 

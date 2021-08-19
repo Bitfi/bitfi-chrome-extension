@@ -26,7 +26,7 @@ export const request = async (authToken, method, params = undefined) => {
     transferModel: params
   })
 
-  console.log(res)
+  //console.log(res)
   if (res.data.error)
     throw res.data.error
 
