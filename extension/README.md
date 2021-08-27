@@ -16,7 +16,7 @@ window.bitfi.request(window.subjects.SIGN_TX, {
   nonce: string 
   to: string
   value: string // value being sent in wei
-  chainId: string // network ID in decimal format
+  chainId: integer // network ID in decimal format
 })
 ```
 
