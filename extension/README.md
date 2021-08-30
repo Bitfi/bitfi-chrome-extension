@@ -5,7 +5,7 @@ The extension can be installed using [this link](https://chrome.google.com/webst
 
 ## API
 You can check if the extension is installed by checking the `window.bitfi` variable in a context of your browser.
-To check if a user is authenticated to the extension, invoke an async method `window.bitfi.getAccount` [example](https://github.com/just4hacking/Wallet/blob/33bb80434f361399fb15164adfa6d1b7e6660dff/src/wallets/hardware/bitfi/index.js#L38-L51).
+To check if a user is authenticated to the extension, invoke the async method `window.bitfi.getAccount` [example](https://github.com/just4hacking/Wallet/blob/33bb80434f361399fb15164adfa6d1b7e6660dff/src/wallets/hardware/bitfi/index.js#L38-L51).
 It will return an address of the authenticated user as a string, otherwise `null` will be returned if not authenticated
 
 To send a request for signing, please invoke an async method [example](https://github.com/just4hacking/Wallet/blob/33bb80434f361399fb15164adfa6d1b7e6660dff/src/wallets/hardware/bitfi/index.js#L78-L92)
