@@ -20,7 +20,7 @@ window.bitfi.request(window.subjects.SIGN_TX, {
 })
 ```
 
-Along with `SIGN_TX` there are other request methods
+Aside from `SIGN_TX` there are the following request methods
 
 ```
 GET_ACCOUNT - get current authenticated XDC account, returns null, if not authenticated
